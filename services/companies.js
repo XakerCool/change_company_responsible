@@ -34,10 +34,13 @@ class CompaniesService {
 
     checkIsThereSuccessfulDealsLast90Days(deals) {
         try {
+            if (deals.length <= 0) {
+                return false;
+            }
             const currentDate = new Date();
 
             for (const deal of deals) {
-                const dealLastActivity = new Date(deal.DATE_MODIFY);
+                const dealLastActivity = new Date(deal.CLOSEDATE);
 
                 const differenceInTime = currentDate - dealLastActivity;
                 const differenceInDays = differenceInTime / (1000 * 3600 * 24);

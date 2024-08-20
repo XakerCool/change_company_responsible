@@ -12,8 +12,8 @@ class DealsService {
         try {
             return (await this.bx.deals.list(
                 {
-                    "select": ["ID", "TITLE", "COMPANY_ID", "STAGE_ID", "DATE_CREATE", "DATE_MODIFY"],
-                    "filter": {"=COMPANY_ID": companyId, "=STAGE_ID": "C174:WON"}
+                    "select": ["ID", "TITLE", "COMPANY_ID", "STAGE_ID", "STAGE_SEMANTIC_ID", "DATE_CREATE", "DATE_MODIFY", "CLOSEDATE"],
+                    "filter": {"=COMPANY_ID": companyId, "=STAGE_SEMANTIC_ID": "S"},
                 })
             ).result;
         } catch (error) {
