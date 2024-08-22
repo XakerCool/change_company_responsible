@@ -43,8 +43,9 @@ app.post("/change_resp/change_responsible/:ID", async (req, res) => {
 
         const isThereChangesInCompanyLast30Days = companiesService.checkIsThereChangesLast30Days(company.DATE_MODIFY);
         const isThereSuccessfulDealsLast90Days = companiesService.checkIsThereSuccessfulDealsLast90Days(deals);
+        const isThereAnyDealsLast30Days = companiesService.checkIsThereAnyDealsLast30Days(deals);
 
-        if (isThereChangesInCompanyLast30Days === false && isThereSuccessfulDealsLast90Days === false) {
+        if (isThereChangesInCompanyLast30Days === false && isThereSuccessfulDealsLast90Days === false && isThereAnyDealsLast30Days === false) {
             const changeOperationResult = await companiesService.changeCompanyResponsible(companyId);
             if (changeOperationResult) {
                 logSuccess("/change_resp/change_responsible/", `Ответственный у компании с ID: ${companyId} успешно сменен на 1. Дата последних изменений в компании: ${company.DATE_MODIFY}. Дата последней успешной сделки: ${lastSuccessfulDealDate}`);

@@ -39,10 +39,10 @@ class CompaniesService {
             }
             const currentDate = new Date();
 
-            for (const deal of deals) {
-                const dealLastActivity = new Date(deal.CLOSEDATE);
+            for (const deal of deals.filter(deal => deal.STAGE_SEMANTIC_ID === "S")) {
+                const dealClosureDate = new Date(deal.CLOSEDATE);
 
-                const differenceInTime = currentDate - dealLastActivity;
+                const differenceInTime = currentDate - dealClosureDate;
                 const differenceInDays = differenceInTime / (1000 * 3600 * 24);
 
                 if (differenceInDays <= 90) {
@@ -69,6 +69,32 @@ class CompaniesService {
             return differenceInDays <= 30;
         } catch (error) {
             logError("CompanyService checkIsThereChangesLast30Days", error);
+            return null;
+        }
+    }
+
+    checkIsThereAnyDealsLast30Days(deals) {
+        try {
+            if (deals.length <= 0) {
+                return false;
+            }
+
+            const currentDate = new Date();
+
+            for (const deal of deals) {
+                const dealCreationDate = new Date(deal.DATE_CREATE);
+
+                const differenceInTime = currentDate - dealCreationDate;
+                const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+
+                if (differenceInDays <= 30) {
+                    return true;
+                }
+            }
+
+            return false;
+        } catch (error) {
+            logError("CompanyService checkIsThereAnyDealsLast30Days", error);
             return null;
         }
     }
